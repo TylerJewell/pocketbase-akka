@@ -340,7 +340,12 @@ public class BenchAnswersTest {
   // where the same decision can only be reached through a save and is isolated by subtracting
   // the save with nobody subscribed.
 
-  private record Timing(int repetitions, long windowNanos, long nanosPerRun) {}
+  /**
+   * One figure, and how it was arrived at. {@code windows} is how many windows the figure is
+   * the median of, which {@code toolkit/timing_check.py} reads: a single window is a reading,
+   * not a measurement.
+   */
+  private record Timing(int repetitions, int windows, long windowNanos, long nanosPerRun) {}
 
   private static Timing time(Workload w, int clientCount, List<String> topics, String rule) {
     var collection =
@@ -385,7 +390,7 @@ public class BenchAnswersTest {
     }
     Collections.sort(windows);
     long median = windows.get(windows.size() / 2);
-    return new Timing(repetitions, median, median / repetitions);
+    return new Timing(repetitions, windows.size(), median, median / repetitions);
   }
 
   private static long window(

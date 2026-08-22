@@ -18,13 +18,32 @@ software. No substantial portion travels with this project, because none was cop
 specification, and the specification was written from running the original rather than from
 transcribing it.
 
-One thing came across as a *value*, and it is named here rather than left implicit: the two
-record identifiers `4q1xlclmfloku33` and `sywbhecnh46rhm0` appear in `pocketbase-akka`'s
-`BenchAnswersTest` and in the probes under `probes/`. They are the identifiers of two rows
-in PocketBase's own test fixture database, and they are there so that the two sides of the
-benchmark ask about the same caller. They are identifiers, not code.
+`python toolkit/copied_strings.py pocketbase` pulls every string of ten characters or more
+out of `pocketbase-akka` and looks for it verbatim in the clone. Twenty-two occur in both.
+None of them is code, and all twenty-two fall into three groups, named here in full rather
+than summarised.
 
-**No message text was copied either.** The port's refusal messages were checked against the
+**The wire vocabulary — nineteen of the twenty-two, and they match on purpose.** A port of a
+protocol that renamed the protocol would not be one. `/api/realtime`, `/api/collections`,
+`PB_CONNECT`, `Authorization`, `X-Forwarded-For`, `clientId`, `subscriptions`,
+`collectionName`, `collection` and `_superusers` — and the two fragments the tool reports
+separately because they carry their punctuation, `/api/collections/` and `"clientId":"` —
+are the names a client and a rule already
+use, and the rule fragments `@request.auth.id != ''`, `title ~ 'test1'`, `total != 4`,
+`active = true` and `active = false` are sentences in PocketBase's rule language, which this
+port implements. They were written from the specification, which was written from running
+the original.
+
+**Four record identifiers**, `4q1xlclmfloku33`, `sywbhecnh46rhm0`, `llvuca81nly1qls` and
+`sz5l5z67tg7gku0`. They name rows in PocketBase's own test fixture database and appear in
+`pocketbase-akka`'s tests and in the probes under `probes/`, so that both sides of a
+comparison are asking about the same record and the same caller. They are identifiers, not
+code.
+
+**Two coincidences**, `an expression` and `empty rule`, both inside `Rule.java`'s error
+messages. Ordinary English phrases that the original also happens to contain.
+
+**No message text was copied.** The port's refusal messages were checked against the
 original's by running it (question log S12): PocketBase answers a bad subscribe call with a
 structured body naming the field that failed, and this port answers with a single sentence.
 The two are listed in the published README as a difference.

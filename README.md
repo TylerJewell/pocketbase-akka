@@ -27,8 +27,8 @@ under `pocketbase-port/`.
 
 📉 1,353 Go lines → **1,191 Java lines**<br>
 📁 6 files → **27 files**<br>
-⚡ 6,595 nanoseconds → **21 nanoseconds**, to decide one connection against one change<br>
-⚡ 443 microseconds → **1.4 microseconds**, for one change reaching ten connections<br>
+⚡ 6,636 nanoseconds → **22 nanoseconds**, to decide one connection against one change<br>
+⚡ 446 microseconds → **1.5 microseconds**, for one change reaching ten connections<br>
 🎯 27 of 27 messages → **27 of 27 messages** identical, across 8 workloads<br>
 🧪 not measured → **60 tests**
 
@@ -44,9 +44,9 @@ This port answers the rule from the changed record alone and cannot follow those
 
 ## What it took to build
 
-⏱️ **20.8 hours** from the first command to the published repository, **1.5** of them active<br>
-💬 **453** exchanges with the model<br>
-✍️ **473,596** tokens written by the model, **83,879,564** counting everything sent and re-sent<br>
+⏱️ **21.1 hours** from the first command to the published repository, **1.8** of them active<br>
+💬 **529** exchanges with the model<br>
+✍️ **536,576** tokens written by the model, **109,033,948** counting everything sent and re-sent<br>
 🙋 **0** questions to a human<br>
 🧪 **60** tests
 
@@ -133,7 +133,7 @@ Restart Claude Code when it asks.
 > Then run /akka:setup to install everything this project needs, and /akka:build to
 > compile it, run the tests, and start it locally.
 
-**3. Open** http://localhost:9057.
+**3. Open** http://localhost:9059.
 
 ---
 
@@ -154,20 +154,20 @@ mvn compile
 akka local run
 ```
 
-The service starts on **port 9057**.
+The service starts on **port 9059**.
 
 ### Try it
 
 Open a connection, and keep it open. The first line back names the connection:
 
 ```bash
-curl -N http://localhost:9057/api/realtime
+curl -N http://localhost:9059/api/realtime
 ```
 
 Describe a collection, with a rule that lets everybody through:
 
 ```bash
-curl -X POST http://localhost:9057/api/collections \
+curl -X POST http://localhost:9059/api/collections \
   -H 'Content-Type: application/json' \
   -d '{"name":"notes","id":"notes-id","type":"base",
        "fields":[{"name":"title","type":"text"}],
@@ -177,7 +177,7 @@ curl -X POST http://localhost:9057/api/collections \
 Tell the connection what to listen for, using the name it was given:
 
 ```bash
-curl -X POST http://localhost:9057/api/realtime \
+curl -X POST http://localhost:9059/api/realtime \
   -H 'Content-Type: application/json' \
   -d '{"clientId":"<the name from the first line>","subscriptions":["notes/*"]}'
 ```
@@ -185,7 +185,7 @@ curl -X POST http://localhost:9057/api/realtime \
 Write a record. It appears on the open connection:
 
 ```bash
-curl -X POST http://localhost:9057/api/collections/notes/records \
+curl -X POST http://localhost:9059/api/collections/notes/records \
   -H 'Content-Type: application/json' \
   -d '{"id":"note-one","fields":{"title":"first"}}'
 ```
